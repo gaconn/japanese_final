@@ -3,6 +3,10 @@ const Response = require("../commons/utils/Response");
 const LessonModel = require("../models/LessonModel");
 
 class LessonController {
+  /**
+   * 
+   * METHOD: PUT
+   */
   create = async (req, res) => {
     try {
       const params = req.body
