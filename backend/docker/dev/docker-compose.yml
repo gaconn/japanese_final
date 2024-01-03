@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
-  app:
   mysql:
-    image: imageName
+    image: mysql:8.2.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - 3316:3306
+    networks:
+      - backend
+    volumes:
+      - ./mysql:/var/lib/mysql
+networks:
+  backend:

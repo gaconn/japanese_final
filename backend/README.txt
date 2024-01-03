@@ -3,3 +3,4 @@
 /docker : Chứa các xử lý docker
 
 #########################
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=123456 -p -d mysql:tag
