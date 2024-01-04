@@ -1,3 +1,5 @@
+const { MESSAGE } = require("../commons/constants/Constant");
+const Response = require("../commons/utils/Response");
 const LessonRepository = require("../repositories/LessonRepository")
 class LessonModel {
 
@@ -14,13 +16,12 @@ class LessonModel {
         try {
             const row = await LessonRepository.create(params)
             if (row.affectedRows != 0) {
-                const response = new Response(LESSON_MODEL_CONST.MESSAGE_INSERT_LESSON_SUCCESS, false);
-                response.setData({insertId: row.insertId});
+                const response = new Response({insertId: row.insertId}, []);
                 return response.getResponse();
             }
-            return new Response(LESSON_MODEL_CONST.MESSAGE_INSERT_LESSON_UNSUCCESS, true).getResponse();
+            return new Response([], [new Error(MESSAGE.ERROR_MESSAGE_INSERT_LESSON_UNSUCCESS)]).getResponse();
         } catch (error) {
-            return new Response(error.message, true).getResponse();
+            return new Response([], [error]).getResponse();
         }
     }
 }

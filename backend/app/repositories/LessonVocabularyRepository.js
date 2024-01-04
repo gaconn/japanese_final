@@ -5,7 +5,9 @@ class LessonVocabularyRepository {
         this.connection = db_connection
     }
 
+    create = async (params) => {
 
+    }
 }
 
 module.exports = new LessonVocabularyRepository(getPoolConnect());

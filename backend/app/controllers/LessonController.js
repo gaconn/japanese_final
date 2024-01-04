@@ -1,4 +1,4 @@
-const { LESSON_CONTROLLER_CONST } = require("../commons/constants/LessonConstant");
+const { LESSON_CONTROLLER_CONST, MESSAGE } = require("../commons/constants/Constant");
 const Response = require("../commons/utils/Response");
 const LessonModel = require("../models/LessonModel");
 
@@ -11,14 +11,14 @@ class LessonController {
     try {
       const params = req.body
       if (!params) {
-        const response = new Response(LESSON_CONTROLLER_CONST.PARAM_CREATE_IS_NULL_MESSAGE, true);
+        const response = new Response([], [new Error(MESSAGE.ERROR_PARAM_CREATE_IS_NULL)]);
         return res.json(response.getResponse())
       }
 
       const result = await LessonModel.create(params);
       return res.json(result);
     } catch (error) {
-      const response = new Response(error.message, true);
+      const response = new Response([], [error]);
       return res.json(response.getResponse());
     }
  }

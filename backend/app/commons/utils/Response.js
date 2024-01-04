@@ -1,15 +1,32 @@
 class Response{
-    constructor(message = null, isError = null) {
-        this.message = message;
-        this.isError = isError;
+    constructor(data, listError = []) {
+        if ((listError instanceof Array)) {
+            this.data = data;
+            this.errors = listError;
+        } else {
+            this.data = data
+            this.errors = []
+        }
     }
 
-    setMessage = (message) => {
-        this.message = message
+    setErrors = (listError) => {
+        if (!(listError instanceof Array)) {
+            throw new Error("List error must be array")
+        }
+        
+        for (const key in listError) {
+            if (!(key instanceof Error)) {
+                throw new Error("Array contains an item that is not an instance of Error")
+            }
+        }
+        this.errors = listError
     }
 
-    setIsError = (isError) => {
-        this.isError = isError
+    addError = (error) => {
+        if (!(error instanceof Error)) {
+            throw new Error("Parameters must be an instance of Error")
+        }
+        this.errors.push(error)
     }
 
     setData = (data) => {
@@ -18,9 +35,8 @@ class Response{
 
     getResponse = () => {
         return {
-            message: this.message,
-            isError: this.isError,
-            data: this.data
+            data: this.data,
+            errors: this.errors
         }
     }
 }

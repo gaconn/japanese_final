@@ -1,9 +1,9 @@
-const { LESSON_MODEL_CONST } = require("../commons/constants/LessonConstant");
+const { LESSON_MODEL_CONST } = require("../commons/constants/Constant");
 const { getPoolConnect } = require("../commons/utils/DBConnect");
 const { isValidDate } = require("../commons/utils/Validate");
 
 /**
- * Handle connect to lesson table in database
+ * Handle actions to lesson table
  */
 class LessonRepository {
     constructor(db_connection) {

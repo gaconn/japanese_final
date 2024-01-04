@@ -5,12 +5,12 @@ class VocabularyController {
     addNewVocabularyToLesson = async (req, res) => {
         const params = req.body
         if (!params) {
-            const response = new Response(LESSON_CONTROLLER_CONST.PARAM_CREATE_IS_NULL_MESSAGE, true);
+            const response = new Response("Parameters can not be null", true);
             return res.json(response.getResponse())
         }
 
         try {
-            const result = await VocabularyModel.create();
+            const result = await VocabularyModel.create(params);
             return res.json(result)
         } catch (error) {
             
