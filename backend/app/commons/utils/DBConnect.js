@@ -28,7 +28,7 @@ function getPoolConnect() {
         enableKeepAlive: true,
         keepAliveInitialDelay: 0
     })
-
+    
     return connection;
 }
 
