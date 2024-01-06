@@ -1,5 +1,3 @@
-const { getPoolConnect } = require("../commons/utils/DBConnect");
-
 /**
  * Handle actions to vn_jp_translation
  */
@@ -33,13 +31,25 @@ class VNJPTranslationRepository {
         }
 
         try {
-            const query = "INSERT INTO vn_jp_translation(vn_word_id, jp_word_id, detail) VALUES(?)"
-            const [row, field] = await this.connection.query(query, [params.VNWordId, params.JPWordId, params.Detail])
+            const query = "INSERT INTO vn_jp_translation SET ?"
+            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
+
+    [prepareValuesInsert] = (params) => {
+        const values = {}
+
+        values["vn_word_id"] = params.VNWordId
+        values["jp_word_id"] = params.JPWordId
+        if (params.Detail) {
+            values["detail"] = params.Detail
+        }
+
+        return values
+    }
 }
 
-module.exports = new VNJPTranslationRepository(getPoolConnect());
+module.exports = VNJPTranslationRepository;

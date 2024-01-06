@@ -1,5 +1,3 @@
-const { getPoolConnect } = require("../commons/utils/DBConnect")
-
 class LessonVocabularyRepository {
     constructor(db_connection) {
         this.connection = db_connection
@@ -11,16 +9,25 @@ class LessonVocabularyRepository {
         }
 
         try {
-            const query = "INSERT INTO lesson_vocabulary(lesson_id, translation_id, learning_time, type_word, created_date)\
-                            VALUES(?)";
-            var now = new Date();
-            var createdDate = now.toISOString().split("T")[0]
-            const [row, field] = this.connection.query(query, [params.LessonId, params.TranslationId, params.LearningTime, params.TypeWord, createdDate])
+            const query = "INSERT INTO lesson_vocabulary SET ?";
+            const [row, field] = this.connection.query(query, this.parepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
+
+    [parepareValuesInsert] = (params) => {
+        const values = {}
+
+        values["lesson_id"] = params.LessonId
+        values["translation_id"] = params.TranslationId
+        values["learning_time"] = params.LearningTime
+        values["type_word"] = params.TypeWord
+        values["created_date"] = now.toISOString().split("T")[0]
+
+        return values
+    }
 }
 
-module.exports = new LessonVocabularyRepository(getPoolConnect());
+module.exports = LessonVocabularyRepository;

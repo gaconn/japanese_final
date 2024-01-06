@@ -1,5 +1,3 @@
-const { getPoolConnect } = require("../commons/utils/DBConnect");
-
 class VNRepository {
     constructor(db_connection) {
         this.connection = db_connection
@@ -11,13 +9,24 @@ class VNRepository {
         }
 
         try {
-            const query = "INSERT INTO vn(vietnamese, sino_vietnamese) VALUES(?)";
-            const [row, field] = await this.connection.query(query, [params.Vietnamese, params.SinoVietnamese])
+            const query = "INSERT INTO vn SET ?";
+            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
+
+    [prepareValuesInsert] = (params) => {
+        const values = {}
+
+        values["vietnamese"] = params.Vietnamese
+        if (params.SinoVietnamese) {
+            values["sino_vietnamese"] = params.SinoVietnamese 
+        }
+
+        return values
+    }
 }
 
-module.exports = new VNRepository(getPoolConnect())
+module.exports = VNRepository

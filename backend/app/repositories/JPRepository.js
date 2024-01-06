@@ -1,5 +1,3 @@
-const { getPoolConnect } = require("../commons/utils/DBConnect")
-
 class JPRepository {
     constructor(db_connection) {
         this.connection = db_connection
@@ -11,13 +9,30 @@ class JPRepository {
         }
 
         try {
-            const query = "INSERT INTO jp(word_kanji, word_hiragana, word_katakana) VALUES(?)"
-            const [row, field] = await this.connection.query(query, [params.WordKanji, params.WordHiragana, params.WordKatakana])
+            const query = "INSERT INTO jp SET ?"
+            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
+
+    [prepareValuesInsert] = (params) => {
+        const values = {}
+        if (params.WordKanji) {
+            values["word_kanji"] = params.WordKanji
+        } 
+
+        if (params.WordHiragana) {
+            values["word_hiragana"] = params.WordHiragana
+        }
+
+        if (params.WordKatakana) {
+            values["word_katakana"] = params.WordKatakana
+        }
+
+        return values
+    }
 }
 
-module.exports = new JPRepository(getPoolConnect())
+module.exports = JPRepository

@@ -1,4 +1,5 @@
 const { MESSAGE } = require("../commons/constants/Constant");
+const connection = require("../commons/utils/DBConnect");
 const Response = require("../commons/utils/Response");
 const LessonRepository = require("../repositories/LessonRepository")
 class LessonModel {
@@ -14,7 +15,8 @@ class LessonModel {
 
         //thêm dữ liệu
         try {
-            const row = await LessonRepository.create(params)
+            const lessonRepository = new LessonRepository(connection)
+            const row = await lessonRepository.create(params)
             if (row.affectedRows != 0) {
                 const response = new Response({insertId: row.insertId}, []);
                 return response.getResponse();

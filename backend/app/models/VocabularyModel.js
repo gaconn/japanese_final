@@ -4,6 +4,8 @@ const { isValidDate } = require("../commons/utils/Validate");
 const LessonVocabularyRepository = require("../repositories/LessonVocabularyRepository");
 const VNJPTranslationRepository = require("../repositories/VNJPTranslationRepository");
 const VNRepository = require("../repositories/VNRepository");
+const connection = require("../commons/utils/DBConnect");
+const JPRepository = require("../repositories/JPRepository");
 class VocabularyModel {
 
     /**
@@ -25,7 +27,7 @@ class VocabularyModel {
             errors.push(new Error("LearningTime is require and format could be yyyy-mm-dd"))
         }
 
-        if (!params.TypeWord || !VOCABULARY_TYPE_WORD.hasOwnProperty(params.TypeWord)) {
+        if (params.TypeWord === null || params.TypeWord === undefined || !VOCABULARY_TYPE_WORD.hasOwnProperty(params.TypeWord)) {
             errors.push(new Error("TypeWord must be 0 - hiragana/katakana or 1 - kanji"))
         }
         
@@ -39,12 +41,14 @@ class VocabularyModel {
 
         // check id valid
         try {
-            const row = await VNJPTranslationRepository.getById(params.TranslationId);
+            const vnJPTranslationRepository = new VNJPTranslationRepository(connection)
+            const row = await vnJPTranslationRepository.getById(params.TranslationId);
             if (row.length === 0) {
                 return new Response("TranslationId is not exist", true);
             }
 
-            const insertResult = await LessonVocabularyRepository.create(params)
+            const lessonVocabularyRepository = new LessonVocabularyRepository(connection)
+            const insertResult = await lessonVocabularyRepository.create(params)
             if (insertResult.affectedRows != 0) {
                 return new Response({insertId: insertResult.insertId, success: true}, [])
             }
@@ -86,12 +90,51 @@ class VocabularyModel {
             return new Response([], errors)
         }
 
+        const transaction = await connection.beginTransaction()
         try {
             // add to vn
-            const vnResult = await VNRepository.create(params)
+            const vnRepository = new VNRepository(transaction)
+            const vnResult = await vnRepository.create(params)
+            if (vnResult.affectedRows === 0) {
+                throw new Error("create new vn word fail!")
+            }
+
+            // add to jp
+            const jpRepository = new JPRepository(transaction)
+            const jpResult = await jpRepository.create(params)
+            if (jpResult.affectedRows === 0) {
+                throw new Error("create new jp word fail!")
+            }
+
+            // add to vn_jp_translation
+            const vnJPTranslationRepository = new VNJPTranslationRepository(transaction)
+            const vnJPTranslationResult = await vnJPTranslationRepository.create(params)
+            if (vnJPTranslationResult.affectedRows === 0) {
+                throw new Error("create new vn_jp_translation fail!")
+            }
+
+            // add to lesson_vocabulary
+            const lessonVocabularyRepository = new LessonVocabularyRepository(transaction)
+            const paramsAddLessonVocabulary = {
+                LessonId: params.LessonId,
+                TranslationId: vnJPTranslationResult.ResultId,
+                LearningTime: params.LearningTime,
+                TypeWord: params.TypeWord,
+                CreatedDate: new Date().toISOString().split("T")[0]
+            }
+            const lessonVocabularyResult = await lessonVocabularyRepository.create(paramsAddLessonVocabulary)
+            if (lessonVocabularyResult.affectedRows === 0) {
+                throw new Error("create new lesson_vocabulary fail!")
+            }
+            transaction.commit()
             
+            return new Response({
+                LessonVocabularyId: lessonVocabularyResult.InsertId,
+                TranslationId: vnJPTranslationResult.InsertId
+            }, [])
         } catch (error) {
-            
+            await transaction.rollback()
+            return error
         }
     }
 }

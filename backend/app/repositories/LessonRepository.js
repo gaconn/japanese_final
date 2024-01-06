@@ -1,5 +1,3 @@
-const { LESSON_MODEL_CONST } = require("../commons/constants/Constant");
-const { getPoolConnect } = require("../commons/utils/DBConnect");
 const { isValidDate } = require("../commons/utils/Validate");
 
 /**
@@ -26,8 +24,8 @@ class LessonRepository {
         }
 
         try {
-            const query = "INSERT INTO lesson(lesson_name_jp, lesson_name_vn, created_date) VALUES (?,?,?)";
-            const [row, field] = await this.connection.query(query, [params.LessonNameJP, params.LessonNameVN, params.CreatedDate])
+            const query = "INSERT INTO lesson SET ?";
+            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
             
             return row;
         } catch (error) {
@@ -35,6 +33,16 @@ class LessonRepository {
         }
 
     }
+
+    [prepareValuesInsert] = (params) => {
+        const values = {}
+
+        values["LessonNameJP"] = params.LessonNameJP
+        values["LessonNameVN"] = params.LessonNameVN
+        values["CreatedDate"] = params.CreatedDate
+
+        return values
+    }
 }
 
-module.exports = new LessonRepository(getPoolConnect())
+module.exports = LessonRepository

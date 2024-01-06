@@ -4,10 +4,6 @@ require("dotenv").config();
 var connection = null;
 
 function getPoolConnect() {
-    if (connection != null) {
-        return connection;
-    }
-
     let host = process.env.DB_HOST;
     let user = process.env.DB_ROOT_USER;
     let db = process.env.DB_NAME;
@@ -28,8 +24,7 @@ function getPoolConnect() {
         enableKeepAlive: true,
         keepAliveInitialDelay: 0
     })
-    
-    return connection;
 }
+getPoolConnect()
 
-module.exports = {getPoolConnect}
+module.exports = connection
