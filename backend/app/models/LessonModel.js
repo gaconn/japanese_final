@@ -15,7 +15,8 @@ class LessonModel {
 
         //thêm dữ liệu
         try {
-            const lessonRepository = new LessonRepository(connection)
+            const dbConnection = await connection.getConnection()
+            const lessonRepository = new LessonRepository(dbConnection)
             const row = await lessonRepository.create(params)
             if (row.affectedRows != 0) {
                 const response = new Response({insertId: row.insertId}, []);

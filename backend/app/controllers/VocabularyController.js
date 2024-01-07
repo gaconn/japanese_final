@@ -24,7 +24,7 @@ class VocabularyController {
             const result = await VocabularyModel.createByTranslationId(params);
             return res.json(result)
         } catch (error) {
-            return res.json(new Response([], [error]))   
+            return res.json(new Response([], [error]).getResponse())   
         }
     }
 
@@ -51,9 +51,9 @@ class VocabularyController {
 
         try {
             const result = await VocabularyModel.createNewWordAndAddToLesson(params)
-            return result
+            return res.json(result)
         } catch (error) {
-            return new Response([], [error])
+            return res.json(new Response([], [error]).getResponse())
         }
     }
 }

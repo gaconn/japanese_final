@@ -10,14 +10,14 @@ class JPRepository {
 
         try {
             const query = "INSERT INTO jp SET ?"
-            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
+            const [row, field] = await this.connection.query(query, this.#prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
 
-    [prepareValuesInsert] = (params) => {
+    #prepareValuesInsert(params){
         const values = {}
         if (params.WordKanji) {
             values["word_kanji"] = params.WordKanji
@@ -30,6 +30,8 @@ class JPRepository {
         if (params.WordKatakana) {
             values["word_katakana"] = params.WordKatakana
         }
+
+        values["spelling"] = params.Spelling
 
         return values
     }

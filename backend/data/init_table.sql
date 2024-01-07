@@ -8,7 +8,8 @@ CREATE TABLE jp (
     id INT PRIMARY KEY AUTO_INCREMENT,
     word_kanji VARCHAR(255),
     word_hiragana VARCHAR(255),
-    word_katakana VARCHAR(255)
+    word_katakana VARCHAR(255),
+    spelling VARCHAR(255) NOT NULL,
 );
 
 CREATE TABLE vn_jp_translation (

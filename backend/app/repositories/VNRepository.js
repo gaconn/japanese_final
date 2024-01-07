@@ -8,16 +8,20 @@ class VNRepository {
             throw new Error("Parameters is null")
         }
 
+        if (!params.Vietnamese) {
+            throw new Error("Parameters invalid")
+        }
+
         try {
             const query = "INSERT INTO vn SET ?";
-            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
+            const [row, field] = await this.connection.query(query, this.#prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
 
-    [prepareValuesInsert] = (params) => {
+    #prepareValuesInsert(params){
         const values = {}
 
         values["vietnamese"] = params.Vietnamese

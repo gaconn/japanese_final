@@ -34,9 +34,13 @@ class Response{
     }
 
     getResponse = () => {
+        const errorsList = []
+        for(const error in this.errors) {
+            errorsList.push(this.errors[error].message)
+        }
         return {
             data: this.data,
-            errors: this.errors
+            errors: errorsList
         }
     }
 }

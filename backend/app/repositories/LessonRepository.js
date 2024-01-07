@@ -25,7 +25,7 @@ class LessonRepository {
 
         try {
             const query = "INSERT INTO lesson SET ?";
-            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
+            const [row, field] = await this.connection.query(query, this.#prepareValuesInsert(params))
             
             return row;
         } catch (error) {
@@ -34,12 +34,12 @@ class LessonRepository {
 
     }
 
-    [prepareValuesInsert] = (params) => {
+    #prepareValuesInsert(params){
         const values = {}
 
-        values["LessonNameJP"] = params.LessonNameJP
-        values["LessonNameVN"] = params.LessonNameVN
-        values["CreatedDate"] = params.CreatedDate
+        values["lesson_name_jp"] = params.LessonNameJP
+        values["lesson_name_vn"] = params.LessonNameVN
+        values["created_date"] = params.CreatedDate
 
         return values
     }

@@ -32,14 +32,14 @@ class VNJPTranslationRepository {
 
         try {
             const query = "INSERT INTO vn_jp_translation SET ?"
-            const [row, field] = await this.connection.query(query, this.prepareValuesInsert(params))
+            const [row, field] = await this.connection.query(query, this.#prepareValuesInsert(params))
             return row
         } catch (error) {
             throw error
         }
     }
 
-    [prepareValuesInsert] = (params) => {
+    #prepareValuesInsert(params){
         const values = {}
 
         values["vn_word_id"] = params.VNWordId
