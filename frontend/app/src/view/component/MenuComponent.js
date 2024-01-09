@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const MenuComponent = () => {
   return (
@@ -8,23 +9,23 @@ const MenuComponent = () => {
         </label>
         <input type='checkbox' id='menu_checkbox' hidden/>
         <div className='menu_container flex-grow bg-yellow-100'>
-            <div className='menu_list  w-32'>
-                <div className='menu_item flex justify-around mb-3'>
+            <div className='menu_list  w-32 text-gray-800'>
+                <Link to={"/"} className='menu_item flex justify-around mb-3 cursor-pointer hover:text-gray-500'>
                     <div><img src='/images/icons/home.png' className='block w-7 box-border m-2'/></div>
                     <div className='font-bold flex-grow self-center'>Trang chủ</div>
-                </div>
-                <div className='menu_item flex mb-3 justify-center'>
+                </Link>
+                <Link to={"lesson"} className='menu_item flex mb-3 justify-center cursor-pointer hover:text-gray-500'>
                     <div><img src='/images/icons/lesson.png' className='block w-7 box-border m-2'/></div>
-                    <div className='font-bold flex-grow self-center'>Lesson</div>
-                </div>
-                <div className='menu_item flex justify-around mb-3'>
+                    <div className='font-bold flex-grow self-center'>Bài học</div>
+                </Link>
+                <Link to={"hiragana"} className='menu_item flex justify-around mb-3 cursor-pointer hover:text-gray-500'>
                     <div><img src='/images/icons/hiragana_alphabet.png' className='block w-7 box-border m-2'/></div>
                     <div className='font-bold flex-grow self-center'>Hiragana</div>
-                </div>
-                <div className='menu_item flex justify-around mb-3'>
+                </Link>
+                <Link to={"katakana"} className='menu_item flex justify-around mb-3 cursor-pointer hover:text-gray-500'>
                     <div><img src='/images/icons/katakana_alphabet.png' className='block w-7 box-border m-2'/></div>
                     <div className='font-bold flex-grow self-center'>Katakana</div>
-                </div>
+                </Link>
             </div>
         </div>
     </div>
