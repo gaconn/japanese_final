@@ -8,6 +8,8 @@ import {
 import HomePage from './view/page/HomePage';
 import MainLayout from './view/layout/MainLayout';
 import LessonPage from './view/page/LessonPage';
+import Theory from './view/page/Lesson/Theory';
+import Exercise from './view/page/Lesson/Exercise';
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,18 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "/lesson",
-        element: <LessonPage />
+        path: "lesson",
+        element: <LessonPage />,
+        children: [
+          {
+            path: "theory/:lessonId",
+            element: <Theory />
+          },
+          {
+            path: "exercise/:lessonId",
+            element: <Exercise />
+          }
+        ]
       }
     ]
   }

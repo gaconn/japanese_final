@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.japanese_word {
+    font-family: Arial, sans-serif;
+    font-size: 1.4rem;
+    transition: transform 0.2s;
+}
+
+.japanese_word:hover {
+    transform: scale(2);
+    cursor: pointer;
+}

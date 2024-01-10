@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 
 const MenuComponent = () => {
   return (
-    <div className='h-screen flex flex-col'>
-        <label for="menu_checkbox" className='menu_trigger block w-fit h-fit m-2 cursor-pointer hover:shadow-lg hover: shadow-blue-500'>
+    <div className='h-screen flex flex-col sticky top-0 left-0 bottom-0 w-32'>
+        <label htmlFor="menu_checkbox" className='menu_trigger block w-fit h-fit m-2 cursor-pointer hover:shadow-lg hover: shadow-blue-500'>
             <img src='/images/icons/menu.png' alt='menu-icon' className='block w-10 h-10 shadow-inner shadow-blue-500'/>
         </label>
         <input type='checkbox' id='menu_checkbox' hidden/>
