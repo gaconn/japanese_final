@@ -37,7 +37,7 @@ const LessonPage = () => {
     return (
         <div className="flex flex-grow sticky top-0 right-0 bottom-0">
             <div className='w-4 bg-gray-500'></div>
-            <div className="flex-1 bg-gray-100 rounded-md p-4 h-screen overflow-auto">
+            <div className="flex-1 bg-gray-100 rounded-md h-screen overflow-auto relative">
                 <Outlet />
             </div>
             <div className="w-72 bg-gray-500 shadow-md p-4 overflow-auto h-screen sticky top-0 right-0 bottom-0">
