@@ -11,6 +11,9 @@ import LessonPage from './view/page/LessonPage';
 import Theory from './view/page/Lesson/Theory';
 import Exercise from './view/page/Lesson/Exercise';
 import LoginPage from './view/page/LoginPage';
+import HiraganaPage from './view/page/HiraganaPage';
+import HiraganaTheory from './view/page/Hiragana/HiraganaTheory';
+import HiraganaExercise from './view/page/Hiragana/HiraganaExercise';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,20 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />
+      },
+      {
+        path: "hiragana",
+        element: <HiraganaPage />,
+        children: [
+          {
+            path: "theory",
+            element: <HiraganaTheory />
+          },
+          {
+            path: "exercise",
+            element: <HiraganaExercise />
+          }
+        ]
       }
     ]
   }
