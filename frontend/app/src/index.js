@@ -10,6 +10,7 @@ import MainLayout from './view/layout/MainLayout';
 import LessonPage from './view/page/LessonPage';
 import Theory from './view/page/Lesson/Theory';
 import Exercise from './view/page/Lesson/Exercise';
+import LoginPage from './view/page/LoginPage';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             element: <Exercise />
           }
         ]
+      },
+      {
+        path: "login",
+        element: <LoginPage />
       }
     ]
   }
