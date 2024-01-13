@@ -8,3 +8,14 @@ export const Hiragana = {
     HIRAGANA_OBJ_KEY_MARU: "objMaruHiragana",
     HIRAGANA_OBJ_KEY_COMBINE: "objHiraCombination"
 }
+
+export const Katakana = {
+    TYPE_LOAD_ALL: 1,
+    TYPE_LOAD_TENTEN: 2,
+    TYPE_LOAD_MARU: 3,
+    TYPE_LOAD_COMBINE: 4,
+    KATAKANA_OBJ_KEY_COMMON: "objKatakana",
+    KATAKANA_OBJ_KEY_TENTEN: "objTentenKatakana",
+    KATAKANA_OBJ_KEY_MARU: "objMaruKatakana",
+    KATAKANA_OBJ_KEY_COMBINE: "objKataCombination"
+}

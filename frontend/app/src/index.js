@@ -16,6 +16,9 @@ import HiraganaTheory from './view/page/Hiragana/HiraganaTheory';
 import HiraganaExercise from './view/page/Hiragana/HiraganaExercise';
 import { Provider } from 'react-redux';
 import store from './service/store/store';
+import KatakanaPage from './view/page/KatakanaPage';
+import KatakanaTheory from './view/page/Katakana/KatakanaTheory';
+import KatakanaExercise from './view/page/Katakana/KatakanaExercise';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,20 @@ const router = createBrowserRouter([
           {
             path: "exercise",
             element: <HiraganaExercise />
+          }
+        ]
+      },
+      {
+        path: "katakana",
+        element: <KatakanaPage />,
+        children: [
+          {
+            path: "theory",
+            element: <KatakanaTheory />
+          },
+          {
+            path: "exercise", 
+            element: <KatakanaExercise />
           }
         ]
       }

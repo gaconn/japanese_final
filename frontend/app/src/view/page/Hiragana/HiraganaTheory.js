@@ -11,10 +11,12 @@ const HiraganaTheory = () => {
         const fetchData = async () => {
             try {
                 var data = await loadAlphabetData(LOAD_HIRAGANA)
-                console.log(data);
                 var objFilter
                 if(typeLoad === Hiragana.TYPE_LOAD_ALL) {
-                    objFilter = {objHiragana: {...data[Hiragana.HIRAGANA_OBJ_KEY_COMMON]}}
+                    objFilter = {
+                        objHiragana: {...data[Hiragana.HIRAGANA_OBJ_KEY_COMMON]},
+                        objHiraCombination: {...data[Hiragana.HIRAGANA_OBJ_KEY_COMBINE]}
+                    }
                 } else if (typeLoad === Hiragana.TYPE_LOAD_TENTEN) {
                     objFilter = {objTentenHiragana: {...data[Hiragana.HIRAGANA_OBJ_KEY_TENTEN]}}
                 } else if (typeLoad === Hiragana.TYPE_LOAD_MARU) {
