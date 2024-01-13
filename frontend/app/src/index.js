@@ -14,6 +14,8 @@ import LoginPage from './view/page/LoginPage';
 import HiraganaPage from './view/page/HiraganaPage';
 import HiraganaTheory from './view/page/Hiragana/HiraganaTheory';
 import HiraganaExercise from './view/page/Hiragana/HiraganaExercise';
+import { Provider } from 'react-redux';
+import store from './service/store/store';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router}/>
+      </Provider>
+    </React.StrictMode>
 );
