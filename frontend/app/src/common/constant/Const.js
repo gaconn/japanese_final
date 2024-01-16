@@ -19,3 +19,9 @@ export const Katakana = {
     KATAKANA_OBJ_KEY_MARU: "objMaruKatakana",
     KATAKANA_OBJ_KEY_COMBINE: "objKataCombination"
 }
+
+export const Exercise = {
+    QUESTION_TYPE_VI_JP: 1,
+    QUESTION_TYPE_JP_VI: 2,
+    QUESTION_TYPE_RANDOM: 3
+}
