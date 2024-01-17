@@ -31,7 +31,7 @@ const loadAlphabetData = async (type) => {
     return data
 }
 
-const loadQuestionHiraganaData = async(questionType) => {
+export const loadQuestionHiraganaData = async(questionType = 2) => {
     const response = await fetch(HIRAGANA_DATA_DIR)
     if (!response.ok) {
         throw new Error("Fetch data fail");
@@ -51,37 +51,48 @@ const loadQuestionHiraganaData = async(questionType) => {
     }
     
     var rangeKeys = Object.keys(rangeData)
-    var questionKey = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
-    var answer = rangeData[questionKey]
+    var spelling = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
+    var word = rangeData[spelling]
     var objFakeAnswer = {}
     var count = 0
+    if (questionType === Exercise.QUESTION_TYPE_RANDOM) {
+        var random = Math.ceil(Math.random() * 2)
+        if (random === Exercise.QUESTION_TYPE_VI_JP) {
+            questionType = Exercise.QUESTION_TYPE_VI_JP
+            objFakeAnswer[spelling] = word
+        } else {
+            questionType = Exercise.QUESTION_TYPE_JP_VI
+            objFakeAnswer[word] = spelling 
+        }
+    }
+
     while (true) {
-        var fakeAnswerKey = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
-        if (fakeAnswerKey !== questionKey && !objFakeAnswer[fakeAnswerKey]) {
-            objFakeAnswer[fakeAnswerKey] = rangeData[fakeAnswerKey]
+        var fakeSpelling = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
+        if (fakeSpelling !== spelling && !objFakeAnswer[fakeSpelling]) {
+            if (questionType === Exercise.QUESTION_TYPE_VI_JP) {
+                objFakeAnswer[fakeSpelling] = rangeData[fakeSpelling]
+            } else if (questionType === Exercise.QUESTION_TYPE_JP_VI) {
+                objFakeAnswer[rangeData[fakeSpelling]] = fakeSpelling
+            }
             count ++
             if (count > 3) break
         }
     }
-    objFakeAnswer[questionKey] = answer
+    
 
     if (questionType === Exercise.QUESTION_TYPE_VI_JP) {
         return {
-            question: questionKey,
-            answer: answer,
-            listAnswer: objFakeAnswer
+            question: spelling,
+            answer: word,
+            listFakeAnswer: objFakeAnswer
         }
-    } else if (questionType === Exercise.QUESTION_TYPE_JP_VI) {
+    } else {
         return {
-            question: answer,
-            answer: questionKey,
-            listAnswer: objFakeAnswer
+            question: word,
+            answer: spelling,
+            listFakeAnswer: objFakeAnswer
         }
-    } else if (questionType === Exercise.QUESTION_TYPE_RANDOM) {
-        return {
-            
-        }
-    }
+    } 
 }
 
 export {loadAlphabetData, LOAD_HIRAGANA, LOAD_KATAKANA, LOAD_214KANJI_STROKE}

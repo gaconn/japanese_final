@@ -1,15 +1,26 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { loadQuestionHiraganaData } from '../../../service/process/loadData'
 
 const HiraganaExercise = () => {
-  const {question, answer, listQuestion, reload} = useSelector(state => state.exercise)
+  const {question, answer, listFakeAnswer, typeQuestion, reload} = useSelector(state => state.exercise)
   const dispatch = useDispatch()
 
   useEffect(() => {
     const loadQuestion = async() => {
-
+      if(reload) {
+        const dataFilter = await loadQuestionHiraganaData(typeQuestion)
+        const data = {...dataFilter}
+        dispatch(loadQuestion({
+          question: data.question,
+          answer: data.answer,
+          listFakeAnswer: data.listFakeAnswer
+        }))
+      }
     }
-  }, [dispatch, reload])
+    loadQuestion()
+  }, [dispatch])
+  console.log(question);
   return (
     <div className='h-screen relative'>
       <div className="flex flex-col w-24  h-7 absolute top-2 left-4">
@@ -19,23 +30,19 @@ const HiraganaExercise = () => {
       </div>
       <div className="w-full h-screen flex flex-col justify-center items-center">
         <div className="px-4 py-2 w-full">
-          <p className="text-lg font-bold text-center">Câu hỏi: Lorem ipsum dolor sit amet?</p>
+          <p className="text-lg font-bold text-center">{question}</p>
           <ul className="mt-10 flex justify-center">
-            <li className='mx-3'>
-              <label className="flex items-center">
-                <button className='rounded-md bg-transparent border-gray-700 border-2 px-4 py-1 hover:bg-green-200 transition transform hover:-translate-y-1'>Đáp án 1</button>
-              </label>
-            </li>
-            <li className='mx-3'>
-              <label className="flex items-center">
-                <button className='rounded-md bg-transparent border-gray-700 border-2 px-4 py-1 hover:bg-green-200 transition transform hover:-translate-y-1'>Đáp án 1</button>
-              </label>
-            </li>
-            <li className='mx-3'>
-              <label className="flex items-center">
-                <button className='rounded-md bg-transparent border-gray-700 border-2 px-4 py-1 hover:bg-green-200 transition transform hover:-translate-y-1'>Đáp án 1</button>
-              </label>
-            </li>
+            {
+              Object.keys(listFakeAnswer).map((item, key) => {
+                return (
+                  <li className='mx-3' key={key}>
+                    <label className="flex items-center">
+                      <button className='rounded-md bg-transparent border-gray-700 border-2 px-4 py-1 hover:bg-green-200 transition transform hover:-translate-y-1'>{listFakeAnswer[item]}</button>
+                    </label>
+                  </li>
+                )
+              })
+            }
           </ul>
         </div>
         
