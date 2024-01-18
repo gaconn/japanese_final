@@ -50,9 +50,17 @@ export const loadQuestionHiraganaData = async(questionType = 2) => {
         rangeData = data[Hiragana.HIRAGANA_OBJ_KEY_MARU]
     }
     
-    var rangeKeys = Object.keys(rangeData)
-    var spelling = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
-    var word = rangeData[spelling]
+    var rangeKeys
+    var spelling
+    var word
+    
+    while (true) {
+        rangeKeys = Object.keys(rangeData)
+        spelling = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
+        if (rangeData[spelling] === null) continue
+        word = rangeData[spelling]
+        break
+    }
     var objFakeAnswer = {}
     var count = 0
     if (questionType === Exercise.QUESTION_TYPE_RANDOM) {
@@ -62,17 +70,24 @@ export const loadQuestionHiraganaData = async(questionType = 2) => {
             objFakeAnswer[spelling] = word
         } else {
             questionType = Exercise.QUESTION_TYPE_JP_VI
-            objFakeAnswer[word] = spelling 
+            objFakeAnswer[word] = `/${spelling}/` 
+        }
+    } else {
+        if (questionType === Exercise.QUESTION_TYPE_VI_JP) {
+            objFakeAnswer[spelling] = word
+        } else {
+            objFakeAnswer[word] = `/${spelling}/` 
         }
     }
 
     while (true) {
         var fakeSpelling = rangeKeys[Math.floor(Math.random() * rangeKeys.length)]
         if (fakeSpelling !== spelling && !objFakeAnswer[fakeSpelling]) {
+            if (rangeData[fakeSpelling] === null) continue
             if (questionType === Exercise.QUESTION_TYPE_VI_JP) {
                 objFakeAnswer[fakeSpelling] = rangeData[fakeSpelling]
             } else if (questionType === Exercise.QUESTION_TYPE_JP_VI) {
-                objFakeAnswer[rangeData[fakeSpelling]] = fakeSpelling
+                objFakeAnswer[rangeData[fakeSpelling]] = `/${fakeSpelling}/`
             }
             count ++
             if (count > 3) break
@@ -82,14 +97,14 @@ export const loadQuestionHiraganaData = async(questionType = 2) => {
 
     if (questionType === Exercise.QUESTION_TYPE_VI_JP) {
         return {
-            question: spelling,
+            question: `/${spelling}/`,
             answer: word,
             listFakeAnswer: objFakeAnswer
         }
     } else {
         return {
             question: word,
-            answer: spelling,
+            answer: `/${spelling}/`,
             listFakeAnswer: objFakeAnswer
         }
     } 
