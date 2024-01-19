@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadQuestionHiraganaData } from '../../../service/process/loadData'
-import { loadQuestion, setReload, setTypeQuestion, checkAnswer } from '../../../service/reducer/ExerciseReducer'
+import { loadQuestion, setReload, setTypeQuestion, checkAnswer, setCorrectNoti, setIncorrectNoti} from '../../../service/reducer/ExerciseReducer'
 import { Exercise } from '../../../common/constant/Const'
+import TextZoomNotification from '../../component/Notification/TextZoomNotification'
 
 const HiraganaExercise = () => {
-  const {question, answer, listFakeAnswer, typeQuestion, reload, numberQuestion, numberCorrectAnswer} = useSelector(state => state.exercise)
+  const {question, answer, listFakeAnswer, typeQuestion, reload, numberQuestion, numberCorrectAnswer, correctNoti, incorrectNoti} = useSelector(state => state.exercise)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -17,12 +18,32 @@ const HiraganaExercise = () => {
           answer: data.answer,
           listFakeAnswer: data.listFakeAnswer
         }))
+
+        
+        if (correctNoti) {
+          setTimeout(()=> {
+            dispatch(setCorrectNoti(false))
+          },500)
+        }
+
+        if (incorrectNoti) {
+          setTimeout(() => {
+            dispatch(setIncorrectNoti(false))
+          },500)
+        }
       }
     }
     loadQuestionEvent()
   }, [dispatch, reload, typeQuestion])
   return (
     <div className='h-screen relative'>
+      { correctNoti &&
+        <TextZoomNotification text={"Chính xác"} color='green'/>
+      }
+      {
+        incorrectNoti &&
+        <TextZoomNotification text={"Sai rồi"} color='red'  />
+      }
       <div className="flex flex-col w-24  h-7 absolute top-2 left-4">
         <button className="bg-transparent mb-4 hover:bg-gray-200 text-red-500 font-bold text-xs py-1 px-3 rounded-full border-2 border-gray-500 transition transform hover:translate-x-1" onClick={()=>dispatch(setTypeQuestion(Exercise.QUESTION_TYPE_VI_JP))}>{"Vie -> JPN"}</button>
         <button className="bg-transparent mb-4 hover:bg-gray-200 text-green-500 font-bold py-1 text-xs px-3 rounded-full border-2 border-gray-500 transition transform hover:translate-x-1" onClick={()=>dispatch(setTypeQuestion(Exercise.QUESTION_TYPE_JP_VI))}>{"JPN -> Vie"}</button>

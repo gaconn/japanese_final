@@ -1,8 +1,6 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 
 const Theory = () => {
-    const {lessonId} = useParams()
   return (
     <div>
         <div className="w-full bg-white rounded-md shadow-md p-6">

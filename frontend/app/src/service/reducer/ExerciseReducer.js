@@ -10,6 +10,8 @@ export const ExerciseSlice = createSlice({
         typeQuestion: 3,
         numberQuestion: 0,
         numberCorrectAnswer: 0,
+        correctNoti: false,
+        incorrectNoti: false
     },
     reducers: {
         loadQuestion: (state, action) => {
@@ -27,15 +29,23 @@ export const ExerciseSlice = createSlice({
         },
         checkAnswer: (state, action) => {
             if (state.answer === action.payload) {
+                state.correctNoti = true
                 state.numberQuestion ++
                 state.numberCorrectAnswer ++
                 state.reload = true
             } else {
-                // xử lý chọn sai
+                state.incorrectNoti = true
+                state.reload = true              
             }
+        },
+        setCorrectNoti: (state, action) => {
+            state.correctNoti = action.payload
+        },
+        setIncorrectNoti: (state, action) => {
+            state.incorrectNoti = action.payload
         }
     }
 })
 
-export const {loadQuestion, setReload, setTypeQuestion, checkAnswer} = ExerciseSlice.actions
+export const {loadQuestion, setReload, setTypeQuestion, checkAnswer, setCorrectNoti, setIncorrectNoti} = ExerciseSlice.actions
 export default ExerciseSlice.reducer

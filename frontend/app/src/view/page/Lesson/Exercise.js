@@ -1,8 +1,6 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 
 const Exercise = () => {
-    const {lessonId} = useParams()
   return (
     <div className='h-screen relative'>
       <div className="flex flex-col w-24  h-7 absolute top-2 left-4">
