@@ -59,6 +59,9 @@ const LessonPage = () => {
                     </Link>
                 </div>
                 ))}
+                <div className='text-center'>
+                    <Link to={"/lesson/add"} className='bg-green-400 text-2xl font-bold  rounded-md py-2 px-2 text-gray-700 text-center hover:text-white m-auto hover:bg-green-500 border'>Thêm bài học mới</Link>
+                </div>
             </div>
         
         </div>

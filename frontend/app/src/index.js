@@ -19,6 +19,7 @@ import store from './service/store/store';
 import KatakanaPage from './view/page/KatakanaPage';
 import KatakanaTheory from './view/page/Katakana/KatakanaTheory';
 import KatakanaExercise from './view/page/Katakana/KatakanaExercise';
+import AddLesson from './view/page/Lesson/AddLesson';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
           {
             path: "exercise/:lessonId",
             element: <Exercise />
+          },
+          {
+            path: "add",
+            element: <AddLesson />
           }
         ]
       },
