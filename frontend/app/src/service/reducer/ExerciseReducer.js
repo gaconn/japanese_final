@@ -11,7 +11,10 @@ export const ExerciseSlice = createSlice({
         numberQuestion: 0,
         numberCorrectAnswer: 0,
         correctNoti: false,
-        incorrectNoti: false
+        incorrectNoti: false,
+        isSuggest: false,
+        isNoti: false,
+        incorrectAnswerCount: 0
     },
     reducers: {
         loadQuestion: (state, action) => {
@@ -30,22 +33,49 @@ export const ExerciseSlice = createSlice({
         checkAnswer: (state, action) => {
             if (state.answer === action.payload) {
                 state.correctNoti = true
+                state.isNoti = true
                 state.numberQuestion ++
                 state.numberCorrectAnswer ++
                 state.reload = true
             } else {
-                state.incorrectNoti = true
-                state.reload = true              
+                state.incorrectAnswerCount += 1
+                if (state.incorrectAnswerCount >= 3) {
+                    state.incorrectNoti = true
+                    state.isNoti = true 
+                    state.numberQuestion ++
+                    state.reload = true
+                    state.incorrectAnswerCount = 0
+                } else {
+                    state.isNoti = true
+                    state.incorrectNoti = true
+                }
             }
         },
         setCorrectNoti: (state, action) => {
             state.correctNoti = action.payload
+            if (action.payload === false) {
+                state.isNoti = false
+            }
         },
         setIncorrectNoti: (state, action) => {
             state.incorrectNoti = action.payload
+            if (action.payload === false) {
+                state.isNoti = false
+            }
+        },
+        setSuggestedData: (state, action) => {
+            state.listFakeAnswer = action.payload
+            state.isSuggest = false
+        },
+        setIsSuggest: (state, action) => {
+            state.isSuggest = action.payload
         }
     }
 })
 
-export const {loadQuestion, setReload, setTypeQuestion, checkAnswer, setCorrectNoti, setIncorrectNoti} = ExerciseSlice.actions
+export const {
+                loadQuestion, setReload, setTypeQuestion, checkAnswer, 
+                setCorrectNoti, setIncorrectNoti, setSuggestedData,
+                setIsSuggest
+            } = ExerciseSlice.actions
 export default ExerciseSlice.reducer
