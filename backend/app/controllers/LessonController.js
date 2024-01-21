@@ -29,7 +29,7 @@ class LessonController {
     return res.json(result)
   } catch (error) {
     const response = new Response([], [error]);
-      return res.json(response.getResponse());
+    return res.json(response.getResponse());
   }
  }
 }

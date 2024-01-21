@@ -10,7 +10,9 @@ export const LoadLessonSlice = createSlice({
     },
     reducers: {
         loadLessonReducer: (state, action) => {
-            state.lessons = action.payload
+            if (action.payload.data && action.payload.data.length > 0) {
+                state.lessons = action.payload.data
+            }
         },
         setIsReload: (state, action) => {
             state.isReload = action.payload
