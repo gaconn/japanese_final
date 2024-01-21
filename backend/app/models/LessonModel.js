@@ -27,6 +27,23 @@ class LessonModel {
             return new Response([], [error]).getResponse();
         }
     }
+
+    getAll = async(params) => {
+        var page 
+        if (params.page && typeof parseInt(params.page) === "number") {
+            page = params.page
+        } else {
+            page = 1
+        }
+        try {
+            const dbConnection = await connection.getConnection()
+            const lessonRepository = new LessonRepository(dbConnection)
+            const row = await lessonRepository.get({page})
+            return new Response(row, []).getResponse();
+        } catch (error) {
+            return new Response([], [error]).getResponse();
+        }
+    }
 }
 
 module.exports = new LessonModel();

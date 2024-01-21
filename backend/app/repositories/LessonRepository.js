@@ -43,6 +43,21 @@ class LessonRepository {
 
         return values
     }
+
+    get = async (params) => {
+        if (!params) {
+            throw new Error("Parameters can not be null!");
+        }
+
+        try {
+            const query = `SELECT id, lesson_name_vn, lesson_name_jp FROM lesson ORDER BY created_date ASC LIMIT ${(params.page-1) * 10},10`;
+            const [row, field] = await this.connection.query(query)
+            
+            return row;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = LessonRepository

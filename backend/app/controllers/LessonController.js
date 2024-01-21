@@ -22,6 +22,16 @@ class LessonController {
       return res.json(response.getResponse());
     }
  }
+ getAll = async (req, res) => {
+  try {
+    const query = req.query
+    const result = await LessonModel.getAll(query)
+    return res.json(result)
+  } catch (error) {
+    const response = new Response([], [error]);
+      return res.json(response.getResponse());
+  }
+ }
 }
 
 module.exports = new LessonController();
