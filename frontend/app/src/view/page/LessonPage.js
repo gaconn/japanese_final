@@ -1,39 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
+import { loadLessons } from '../../service/api/lesson'
+import { loadLessonReducer, setIsLoading } from '../../service/reducer/LoadLessonReducer'
 
 const LessonPage = () => {
-    const lessons = [
-        {
-          id: 1,
-          title: 'Bài 1: Học cách chào hỏi',
-          theory: 'Nội dung lý thuyết của bài 1',
-          exercises: 'Trang luyện tập của bài 1',
-        },
-        {
-            id: 2,
-            title: 'Bài 1: Học cách chào hỏi',
-            theory: 'Nội dung lý thuyết của bài 1',
-            exercises: 'Trang luyện tập của bài 1',
-        },
-        {
-            id: 3,
-            title: 'Bài 1: Học cách chào hỏi',
-            theory: 'Nội dung lý thuyết của bài 1',
-            exercises: 'Trang luyện tập của bài 1',
-          },
-          {
-            id: 4,
-            title: 'Bài 1: Học cách chào hỏi',
-            theory: 'Nội dung lý thuyết của bài 1',
-            exercises: 'Trang luyện tập của bài 1',
-          },
-          {
-            id: 5,
-            title: 'Bài 1: Học cách chào hỏi',
-            theory: 'Nội dung lý thuyết của bài 1',
-            exercises: 'Trang luyện tập của bài 1',
-          },
-      ];
+    const {lessons, isReload, isLoading} = useSelector(state => state.loadLesson)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        (async () => {
+            dispatch(setIsLoading(true))
+            const result = await loadLessons()
+            // TODO: handle error
+            //
+
+            dispatch(loadLessonReducer(result.data))
+            dispatch(setIsLoading(false))
+        })()
+    }, [dispatch, isReload])
     return (
         <div className="flex flex-grow sticky top-0 right-0 bottom-0">
             <div className='w-4 bg-gray-500'></div>
@@ -44,7 +29,7 @@ const LessonPage = () => {
                 <h1 className="text-2xl font-bold mb-4">Danh sách bài học</h1>
                 {lessons.map((lesson) => (
                 <div key={lesson.id} className="mb-4 bg-white rounded-md shadow-md p-4 text-center">
-                    <h2 className="text-lg font-semibold mb-2">{lesson.title}</h2>
+                    <h2 className="text-lg font-semibold mb-2">{lesson.lesson_name_vn}</h2>
                     <Link
                     to={`/lesson/theory/${lesson.id}`}
                     className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md mr-2"

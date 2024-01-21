@@ -17,9 +17,21 @@ export const AddLessonSlice = createSlice({
         },
         setIsSuccess: (state, action) => {
             state.isSuccess = action.payload
+        },
+        setCommittedResult: (state, action) => {
+            if (action.payload.errors && action.payload.errors.length > 0) {
+                state.isSuccess = false
+                state.isToast = true
+            } else if (action.payload.data && action.payload.data.insertId) {
+                state.isSuccess = true
+                state.isToast= true
+            }
+        },
+        setIsToast: (state, action) => {
+            state.isToast = action.payload
         }
     }
 })
 
-export const {setValues, setIsLoading, setIsSuccess} = AddLessonSlice.actions
+export const {setValues, setIsLoading, setIsSuccess, setCommittedResult, setIsToast} = AddLessonSlice.actions
 export default AddLessonSlice.reducer
