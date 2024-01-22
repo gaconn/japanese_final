@@ -32,7 +32,7 @@ const LessonPage = () => {
                 <div>
                     <h1 className="text-2xl font-bold mb-4">Danh sách bài học</h1>
                     {lessons && lessons.map((lesson) => (
-                    <div key={lesson.id} className="mb-4 bg-white rounded-md shadow-md p-4 text-center">
+                    <div key={lesson.id} className="mb-4 bg-white rounded-md shadow-md p-4 text-center relative">
                         <h2 className="text-lg font-semibold mb-2">{lesson.lesson_name_vn}</h2>
                         <Link
                         to={`/lesson/theory/${lesson.id}`}
@@ -45,6 +45,9 @@ const LessonPage = () => {
                         className="py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md"
                         >
                         Luyện tập
+                        </Link>
+                        <Link to={`/lesson/setting/${lesson.id}`}>
+                            <img src='/images/icons/setting.png' alt='setting' className='w-6 absolute top-1 right-1'/>
                         </Link>
                     </div>
                     ))}

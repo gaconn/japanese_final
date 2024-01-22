@@ -4,6 +4,7 @@ import KatakanaReducer from "../reducer/KatakanaReducer"
 import ExerciseReducer from "../reducer/ExerciseReducer"
 import AddLessonReducer from "../reducer/AddLessonReducer"
 import LoadLessonReducer from "../reducer/LoadLessonReducer"
+import SettingLessonReducer from "../reducer/SettingLessonReducer"
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         katakanaAlphabet: KatakanaReducer,
         exercise: ExerciseReducer,
         addLesson: AddLessonReducer,
-        loadLesson: LoadLessonReducer
+        loadLesson: LoadLessonReducer,
+        settingLesson: SettingLessonReducer
     }
 })

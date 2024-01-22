@@ -44,6 +44,20 @@ class LessonModel {
             return new Response([], [error]).getResponse();
         }
     }
+
+    getAllLessonDataById = async(params) => {
+        if (!params.lessonId || typeof parseInt(params.lessonId) !== "number") {
+            return new Response([], [new Error("lessonId invalid")]).getResponse();
+        }
+
+        try {
+            const dbConnection = await connection.getConnection()
+            const lessonRepository = new LessonRepository(dbConnection)
+            
+        } catch (error) {
+            
+        }
+    }
 }
 
 module.exports = new LessonModel();
