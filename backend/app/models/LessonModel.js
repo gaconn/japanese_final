@@ -53,9 +53,15 @@ class LessonModel {
         try {
             const dbConnection = await connection.getConnection()
             const lessonRepository = new LessonRepository(dbConnection)
-            
+            const rowVocabulary = await lessonRepository.getAllLessonVocabularyDataById(params)
+            const rowGrammar = lessonRepository.getAllLessonGrammarDataById(params)
+
+            return new Response({
+                vocabulary: rowVocabulary,
+                grammar: rowGrammar
+            }, []).getResponse()
         } catch (error) {
-            
+            return new Response([], [error]).getResponse();
         }
     }
 }

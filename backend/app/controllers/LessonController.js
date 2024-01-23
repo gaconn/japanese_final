@@ -36,9 +36,11 @@ class LessonController {
     loadAllDataById = async (req, res) => {
       try {
         const query = req.query
-        
+        const result = await LessonModel.getAllLessonDataById(query)
+        return res.json(result)
       } catch (error) {
-        
+        const response = new Response([], [error])
+        return res.json(response.getResponse())
       }
     }
 }

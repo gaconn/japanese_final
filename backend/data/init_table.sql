@@ -79,6 +79,8 @@ CREATE TABLE lesson_grammar (
     id INT PRIMARY KEY AUTO_INCREMENT,
     lesson_id INT,
     grammar_id INT,
+    grammar_example_id INT,
+    learning_time DATETIME,
     FOREIGN KEY (lesson_id) REFERENCES lesson(id),
     FOREIGN KEY (grammar_id) REFERENCES grammar(id)
 );
