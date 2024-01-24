@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadAllDataLesson } from '../../../service/api/lesson'
+import { useParams } from 'react-router-dom'
+import { loadLessonData, setIsLoading } from '../../../service/reducer/SettingLessonReducer'
 
 const SettingLesson = () => {
+    const {lessonData, isLoading, isReload} = useSelector(state => state.settingLesson)
+    const dispatch = useDispatch()
+    const {lessonId} = useParams()
+    useEffect(() => {
+        (async() => {
+            dispatch(setIsLoading(true))
+            const dataRes = await loadAllDataLesson(lessonId)
+            if (dataRes.data.data && dataRes.data.data.vocabulary && dataRes.data.data.grammar) {
+                dispatch(loadLessonData(dataRes.data.data))
+            }
+            dispatch(setIsLoading(false))
+        })()
+    }, [])
   return (
     <div>
         <div className="w-full bg-white rounded-md shadow-md p-6">

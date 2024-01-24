@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCommittedResult, setIsLoading, setIsToast, setValues } from '../../../service/reducer/AddLessonReducer'
+import { setCommittedResult, setIsLoading, setIsSuccess, setIsToast, setValues } from '../../../service/reducer/AddLessonReducer'
+import { setIsReload as setIsReloadLesson } from '../../../service/reducer/LoadLessonReducer'
 import { createLesson } from '../../../service/api/lesson'
 import TopScreenNotification from '../../component/Notification/TopScreenNotification'
 
@@ -14,11 +15,16 @@ const AddLesson = () => {
         }
     }
 
+    useEffect(() => {
+        dispatch(setIsReloadLesson(true))
+    }, [])
+
     useEffect(()=> {
         const executeCreateLesson = async() => {
             if (isLoading) {
                 const result = await createLesson(values)
                 dispatch(setCommittedResult(result.data))
+                dispatch(setIsReloadLesson(true))
                 setTimeout(() => {
                     dispatch(setIsToast(false))
                     dispatch(setIsLoading(false))

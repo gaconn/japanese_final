@@ -50,7 +50,7 @@ class LessonRepository {
         }
 
         try {
-            const query = `SELECT id, lesson_name_vn, lesson_name_jp FROM lesson ORDER BY created_date ASC LIMIT ${(params.page-1) * 10},10`;
+            const query = `SELECT id, lesson_name_vn, lesson_name_jp FROM lesson ORDER BY created_date ASC LIMIT ${(params.page-1) * 10},100`;
             const [row, field] = await this.connection.query(query)
             
             return row;
