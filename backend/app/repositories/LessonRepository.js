@@ -67,6 +67,7 @@ class LessonRepository {
         try {
             const query = `SELECT 
                                   lesson_vocabulary.learning_time VocabularyLearningTime, \
+                                  lesson_vocabulary.type_word TypeWord, \
                                   vn_jp_translation.id VNJPTranslationId, \
                                   vn_jp_translation.detail VNJPDetail, \
                                   vn.id VNId, \

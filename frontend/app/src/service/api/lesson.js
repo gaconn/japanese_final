@@ -23,7 +23,7 @@ export const loadLessons = async() => {
 
 export const loadAllDataLesson = async (lessonId) => {
     try {
-        const result = await axios.get(process.env.REACT_APP_API_HOST + GET_ALL_DATA_LESSON_BY_ID)
+        const result = await axios.get(process.env.REACT_APP_API_HOST + GET_ALL_DATA_LESSON_BY_ID, {params: {lessonId}})
         return result
     } catch (error) {
         console.log(error);

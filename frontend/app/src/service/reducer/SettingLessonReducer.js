@@ -10,7 +10,7 @@ const SettingLessonSlice = createSlice({
     },
     reducers: {
         loadLessonData: (state, action) => {
-            state.lessonData = action.data.payload
+            state.lessonData = action.payload
         }, 
         setIsLoading: (state, action) => {
             state.isLoading = action.payload

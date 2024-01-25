@@ -12,6 +12,7 @@ const SettingLesson = () => {
         (async() => {
             dispatch(setIsLoading(true))
             const dataRes = await loadAllDataLesson(lessonId)
+            console.log(dataRes);
             if (dataRes.data.data && dataRes.data.data.vocabulary && dataRes.data.data.grammar) {
                 dispatch(loadLessonData(dataRes.data.data))
             }
