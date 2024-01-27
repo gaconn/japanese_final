@@ -12,14 +12,12 @@ const SettingLesson = () => {
         (async() => {
             dispatch(setIsLoading(true))
             const dataRes = await loadAllDataLesson(lessonId)
-            console.log(dataRes);
             if (dataRes.data.data && dataRes.data.data.vocabulary && dataRes.data.data.grammar) {
                 dispatch(loadLessonData(dataRes.data.data))
             }
             dispatch(setIsLoading(false))
         })()
     }, [])
-    console.log(lessonData);
   return (
     <div>
         <div className="w-full bg-white rounded-md shadow-md p-6">
@@ -43,6 +41,9 @@ const SettingLesson = () => {
                         </li>
                     })
                 }
+                <button className='w-10 hover:shadow'>
+                    <img src='/images/icons/add-button.png' alt='add-button'/>
+                </button>
                 </ul>
             </div>
 
