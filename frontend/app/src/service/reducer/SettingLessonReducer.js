@@ -6,7 +6,7 @@ const SettingLessonSlice = createSlice({
         lessonData: {},
         isLoading: false,
         isReload: false,
-
+        newWord: {}
     },
     reducers: {
         loadLessonData: (state, action) => {
@@ -17,9 +17,12 @@ const SettingLessonSlice = createSlice({
         },
         setIsReload: (state, action) => {
             state.isReload = action.payload
+        },
+        setNewWord: (state, action) => {
+            state.newWord = action.payload
         }
     }
 })
 
-export const {loadLessonData, setIsLoading, setIsReload} = SettingLessonSlice.actions
+export const {loadLessonData, setIsLoading, setIsReload, setNewWord} = SettingLessonSlice.actions
 export default SettingLessonSlice.reducer

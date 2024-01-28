@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadAllDataLesson } from '../../../service/api/lesson'
 import { useParams } from 'react-router-dom'
-import { loadLessonData, setIsLoading } from '../../../service/reducer/SettingLessonReducer'
+import { loadLessonData, setIsLoading, setNewWord } from '../../../service/reducer/SettingLessonReducer'
+import {TypeWord} from '../../../common/constant/Const'
 
 const SettingLesson = () => {
-    const {lessonData, isLoading, isReload} = useSelector(state => state.settingLesson)
+    const {lessonData, isLoading, isReload, newWord} = useSelector(state => state.settingLesson)
     const dispatch = useDispatch()
     const {lessonId} = useParams()
     useEffect(() => {
@@ -18,6 +19,10 @@ const SettingLesson = () => {
             dispatch(setIsLoading(false))
         })()
     }, [])
+
+    const inputVocabularyHandler = (e) => {
+        dispatch(setNewWord({...newWord, [e.target.name]: e.target.value}))
+    }
   return (
     <div>
         <div className="w-full bg-white rounded-md shadow-md p-6">
@@ -41,8 +46,39 @@ const SettingLesson = () => {
                         </li>
                     })
                 }
-                <button className='w-10 hover:shadow'>
-                    <img src='/images/icons/add-button.png' alt='add-button'/>
+                <li className='flex border rounded-md py-1 px-3 flex-wrap' key="add-vocabulary">
+                    <div className='mr-4 flex flex-col '>
+                        <label>Loại từ</label>
+                        <select className='border px-2 py-1 w-32' name='TypeWord' value={newWord.TypeWord} onChange={inputVocabularyHandler}>
+                            <option value={TypeWord.HIRAGANA}>Hiragana</option>
+                            <option value={TypeWord.KATAKANA}>Katakana</option>
+                            <option value={TypeWord.KANJI}>Kanji</option>
+                        </select>
+                    </div>
+                    <div className='mr-4 flex flex-col '>
+                        <label>Từ tiếng Nhật</label>
+                        <input type='text' className='border px-2 py-1 w-52' name="WordJapanese" value={newWord.WordJapanese} onChange={inputVocabularyHandler}/>
+                    </div>
+                    <div className='mr-4 flex flex-col '>
+                        <label>Phiên âm</label>
+                        <input type='text' className='border px-2 py-1 w-44' name='Spelling' value={newWord.Spelling} onChange={inputVocabularyHandler}/>
+                    </div>
+                    <div className='mr-4 flex flex-col '>
+                        <label>Nghĩa tiếng Việt</label>
+                        <input type='text' className='border px-2 py-1 w-60' name='Vietnamese' value={newWord.Vietnamese} onChange={inputVocabularyHandler}/>
+                    </div>
+                    {/* <div className='mr-4 flex flex-col mt-5 w-full'>
+                        <label>Ví dụ</label>
+                        <input type='text' className='border px-2 py-1 w-full'/>
+                        <button className='w-7' >
+                            <img src='/images/icons/add-button.png' alt='add-button' className='hover:shadow'/>
+                        </button>
+                    </div> */}
+                    <button className='mr-4 border px-2 py-1 w-20 bg-yellow-200 hover:bg-yellow-600 font-bold mt-5' onClick={() => dispatch(setNewWord({}))}>Clear</button>
+                    <button className='border px-2 py-1 bg-green-500 hover:bg-green-600 font-bold mt-5'>Thêm mới</button>
+                </li>
+                <button className='w-10' >
+                    <img src='/images/icons/add-button.png' alt='add-button' className='hover:shadow'/>
                 </button>
                 </ul>
             </div>
@@ -55,8 +91,8 @@ const SettingLesson = () => {
                             return (
                                 <li className="flex items-start mb-2">
                                     <div className="mr-2">
-                                    <span className="text-gray-700 kanji">{grammar.SentenceStructure}</span>
-                                    <span className="text-sm text-gray-500">（）</span>
+                                        <span className="text-gray-700 kanji">{grammar.SentenceStructure}</span>
+                                        <span className="text-sm text-gray-500">（）</span>
                                     </div>
                                     <div>
                                     <span className="text-gray-500">{grammar.Meaning}</span>
@@ -68,7 +104,7 @@ const SettingLesson = () => {
                     }
                 </ul>
             </div>
-            </div>
+        </div>
     </div>
   )
 }

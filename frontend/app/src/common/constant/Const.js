@@ -25,3 +25,9 @@ export const Exercise = {
     QUESTION_TYPE_JP_VI: 2,
     QUESTION_TYPE_RANDOM: 3
 }
+
+export const TypeWord = {
+    HIRAGANA: 0,
+    KATAKANA: 1,
+    KANJI: 2
+}
