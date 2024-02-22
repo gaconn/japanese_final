@@ -5,8 +5,16 @@ const SettingLessonSlice = createSlice({
     initialState: {
         lessonData: {},
         isLoading: false,
-        isReload: false,
-        newWord: {}
+        isReload: true,
+        isSubmitProcess: false,
+        newWord: {
+            LessonId: '',
+            TypeWord: '',
+            WordJapanese: '',
+            Spelling: '',
+            Vietnamese: '',
+            LearningTime: new Date().toISOString().substring(0,10)
+        }
     },
     reducers: {
         loadLessonData: (state, action) => {
@@ -20,9 +28,12 @@ const SettingLessonSlice = createSlice({
         },
         setNewWord: (state, action) => {
             state.newWord = action.payload
+        },
+        setIsSubmitProcess: (state, action) => {
+            state.isSubmitProcess = action.payload
         }
     }
 })
 
-export const {loadLessonData, setIsLoading, setIsReload, setNewWord} = SettingLessonSlice.actions
+export const {loadLessonData, setIsLoading, setIsReload, setNewWord, setIsSubmitProcess} = SettingLessonSlice.actions
 export default SettingLessonSlice.reducer

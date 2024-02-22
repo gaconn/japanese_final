@@ -10,4 +10,13 @@ const VOCABULARY_TYPE_WORD = {
     1: "kanji"
 }
 
-module.exports = {MESSAGE, VOCABULARY_TYPE_WORD}
+const TYPE_WORD = {
+    0: "hiragana",
+    1: "karakana",
+    2: "kanji",
+    TYPE_WORD_HIRAGANA: 0,
+    TYPE_WORD_KATAKANA: 1,
+    TYPE_WORD_KANJI: 2
+}
+
+module.exports = {MESSAGE, VOCABULARY_TYPE_WORD, TYPE_WORD}

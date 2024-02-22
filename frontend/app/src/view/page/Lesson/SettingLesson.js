@@ -1,27 +1,50 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadAllDataLesson } from '../../../service/api/lesson'
+import { loadAllDataLesson, addNewWordToLesson } from '../../../service/api/lesson'
 import { useParams } from 'react-router-dom'
-import { loadLessonData, setIsLoading, setNewWord } from '../../../service/reducer/SettingLessonReducer'
+import { loadLessonData, setIsLoading, setIsReload, setIsSubmitProcess, setNewWord } from '../../../service/reducer/SettingLessonReducer'
 import {TypeWord} from '../../../common/constant/Const'
 
 const SettingLesson = () => {
-    const {lessonData, isLoading, isReload, newWord} = useSelector(state => state.settingLesson)
+    const {lessonData, isLoading, isReload, newWord, isSubmitProcess} = useSelector(state => state.settingLesson)
     const dispatch = useDispatch()
     const {lessonId} = useParams()
     useEffect(() => {
         (async() => {
-            dispatch(setIsLoading(true))
-            const dataRes = await loadAllDataLesson(lessonId)
-            if (dataRes.data.data && dataRes.data.data.vocabulary && dataRes.data.data.grammar) {
-                dispatch(loadLessonData(dataRes.data.data))
+            if(isReload) {
+                dispatch(setIsLoading(true))
+                const dataRes = await loadAllDataLesson(lessonId)
+                if (dataRes.data.data && dataRes.data.data.vocabulary && dataRes.data.data.grammar) {
+                    dispatch(loadLessonData(dataRes.data.data))
+                }
+                dispatch(setIsLoading(false))
+                dispatch(setIsReload(false))
             }
-            dispatch(setIsLoading(false))
         })()
-    }, [])
+    }, [isReload])
+
+    useEffect(() => {
+        (async() => {
+            if (isSubmitProcess) {
+               const result = await addNewWordToLesson({...newWord, LessonId: lessonId}) 
+               console.log(result);
+               dispatch(setIsSubmitProcess(false))
+               dispatch(setIsReload(true))
+            }
+        })()
+    }, [isSubmitProcess])
 
     const inputVocabularyHandler = (e) => {
         dispatch(setNewWord({...newWord, [e.target.name]: e.target.value}))
+    }
+
+    const clearClickHandler = (e) => {
+        dispatch(setNewWord({
+            TypeWord: '',
+            WordJapanese: '',
+            Spelling: '',
+            Vietnamese: ''
+        }))
     }
   return (
     <div>
@@ -50,6 +73,7 @@ const SettingLesson = () => {
                     <div className='mr-4 flex flex-col '>
                         <label>Loại từ</label>
                         <select className='border px-2 py-1 w-32' name='TypeWord' value={newWord.TypeWord} onChange={inputVocabularyHandler}>
+                            <option value="">Chọn</option>
                             <option value={TypeWord.HIRAGANA}>Hiragana</option>
                             <option value={TypeWord.KATAKANA}>Katakana</option>
                             <option value={TypeWord.KANJI}>Kanji</option>
@@ -74,11 +98,15 @@ const SettingLesson = () => {
                             <img src='/images/icons/add-button.png' alt='add-button' className='hover:shadow'/>
                         </button>
                     </div> */}
-                    <button className='mr-4 border px-2 py-1 w-20 bg-yellow-200 hover:bg-yellow-600 font-bold mt-5' onClick={() => dispatch(setNewWord({}))}>Clear</button>
-                    <button className='border px-2 py-1 bg-green-500 hover:bg-green-600 font-bold mt-5'>Thêm mới</button>
+                    <div className='mr-4 flex flex-col '>
+                        <label>Thời gian học</label>
+                        <input type='date' className='border px-2 py-1 w-40' name='LearningTime' value={newWord.LearningTime} onChange={inputVocabularyHandler}/>
+                    </div>
+                    <button className='mr-4 border px-2 py-1 w-20 bg-yellow-200 hover:bg-yellow-600 font-bold mt-5' onClick={clearClickHandler}>Clear</button>
+                    <button className='border px-2 py-1 bg-green-500 hover:bg-green-600 font-bold mt-5' onClick={() => dispatch(setIsSubmitProcess(true))}>Thêm mới</button>
                 </li>
                 <button className='w-10' >
-                    <img src='/images/icons/add-button.png' alt='add-button' className='hover:shadow'/>
+                    <img src='/images/icons/add-button.png' alt='add-button' className='hover:shadow' />
                 </button>
                 </ul>
             </div>

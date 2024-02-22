@@ -1,4 +1,4 @@
-const { MESSAGE, VOCABULARY_TYPE_WORD } = require("../commons/constants/Constant");
+const { MESSAGE, VOCABULARY_TYPE_WORD, TYPE_WORD } = require("../commons/constants/Constant");
 const Response = require("../commons/utils/Response");
 const { isValidDate } = require("../commons/utils/Validate");
 const LessonVocabularyRepository = require("../repositories/LessonVocabularyRepository");
@@ -65,7 +65,7 @@ class VocabularyModel {
         }
 
         var errors = []
-        if (!params.LessonId || typeof params.LessonId !== "number" || params.LessonId === 0) {
+        if (!params.LessonId || isNaN(params.LessonId) || params.LessonId === 0) {
             errors.push(new Error("LessonId is require and could be number > 0!"))
         }
 
@@ -74,17 +74,19 @@ class VocabularyModel {
         }
 
         if (!VOCABULARY_TYPE_WORD.hasOwnProperty(params.TypeWord)) {
-            errors.push(new Error("TypeWord must be 0 - hiragana/katakana or 1 - kanji"))
+            errors.push(new Error("TypeWord must be 0 - hiragana, 1 - katakana or 2 - kanji"))
         }
 
         if (!params.Vietnamese || typeof params.Vietnamese !== "string" || params.Vietnamese.trim().length === 0) {
             errors.push(new Error("Vietnamese is require"))
         }
 
-        if (params.TypeWord === 0 && (!params.WordHiragana && !params.WordKatakana)) {
-            errors.push(new Error("When TypeWord equal to 0, WordHiragana or WordKatakana can not be null"))
-        } else if (params.TypeWord === 1 && !params.WordKanji) {
-            errors.push(new Error("When TypeWord equal to 1, WordKanji can not be null"))
+        if (params.TypeWord === TYPE_WORD.TYPE_WORD_HIRAGANA &&  !params.WordHiragana) {
+            errors.push(new Error(`When TypeWord equal to ${TYPE_WORD.TYPE_WORD_HIRAGANA}, WordHiragana can not be null`))
+        } else if (params.TypeWord === TYPE_WORD.TYPE_WORD_KATAKANA && !params.WordKatakana) {
+            errors.push(new Error(`When TypeWord equal to ${TYPE_WORD.TYPE_WORD_KATAKANA}, WordKatakana can not be null`))
+        } else if (params.TypeWord === TYPE_WORD.TYPE_WORD_KANJI && !params.WordKanji) {
+            errors.push(new Error(`When TypeWord equal to ${TYPE_WORD.TYPE_WORD_KANJI}, WordKanji can not be null`))
         }
 
         if (!params.Spelling || typeof params.Spelling !== "string" || params.Spelling.trim().length === 0) {

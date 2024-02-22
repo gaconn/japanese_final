@@ -1,3 +1,5 @@
+const { TYPE_WORD } = require("../commons/constants/Constant")
+
 class JPRepository {
     constructor(db_connection) {
         this.connection = db_connection
@@ -19,15 +21,15 @@ class JPRepository {
 
     #prepareValuesInsert(params){
         const values = {}
-        if (params.WordKanji) {
+        if (params.TypeWord === TYPE_WORD.TYPE_WORD_KANJI) {
             values["word_kanji"] = params.WordKanji
         } 
 
-        if (params.WordHiragana) {
+        if (params.TypeWord === TYPE_WORD.TYPE_WORD_HIRAGANA) {
             values["word_hiragana"] = params.WordHiragana
         }
 
-        if (params.WordKatakana) {
+        if (params.TypeWord === TYPE_WORD.TYPE_WORD_KATAKANA) {
             values["word_katakana"] = params.WordKatakana
         }
 
